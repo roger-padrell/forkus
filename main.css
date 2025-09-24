@@ -1,0 +1,32 @@
+body, html{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    user-select: none;
+}
+
+div#center{
+    position: absolute;
+    display: flex;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#quote{
+    opacity: 1;
+    font-size: 2rem;
+    margin: 0px;
+    transition: opacity 1s;
+}
+#clock{
+    font-size: 10rem;
+    margin: 0px;
+}
+#quote.disabled{
+    opacity: 0;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Forkus</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div id="center">
+    	<p id="quote" onclick="this.classList.toggle('disabled')">Good morning</p>
+    	<div id="clock">10:36</div>
+    </div>
+</body>
+<script>
+let clock = document.getElementById("clock");
+let quote = document.getElementById("quote");
+let resources = [];
+let options = {
+    clock_font: 'JetBrains Mono',
+    clock_size: '10rem',
+    quote_font: 'JetBrains Mono',
+    quote_size: '2rem',
+    display_quote: true,
+}
+function add_css(link){
+    if(!resources.includes(link)){
+    	document.head.insertAdjacentHTML(
+    		'beforeend',
+    		'<link rel="stylesheet" href="' + link + '" />');
+    	resources.push(link)
+    }
+}
+function setup(){
+    //import options
+    //clock_font
+    add_css("https://fonts.googleapis.com/css2?family="+options.clock_font.replaceAll("  ","+"))
+    clock.style.setProperty("font-family",options.clock_font)
+    
+    //quote_font
+    add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
+    quote.style.setProperty("font-family",options.quote_font)
+    
+    //display_quote
+    if(!options.display_quote){
+        quote.classList.add("disabled")
+    }
+    
+    //clock_size
+    clock.style.setProperty("font-size",options.clock_size)
+    
+    //quote_size
+    quote.style.setProperty("font-size",options.quote_size)
+}
+function load(){
+    //load options
+    for(let l in Object.keys(options)){
+    	if(localStorage.getItem(options[l]) != undefined){
+    	    options[l] = localStorage.getItem(options[l])
+    	}
+	}
+    setup()
+}
+window.onload = load;
+</script>
+</html>
