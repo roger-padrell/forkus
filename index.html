@@ -3,62 +3,80 @@
 <head>
 	<title>Forkus</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=alarm,pause,play_arrow,replay,settings,skip_next,skip_previous,timelapse,timer" />
+
+	<link rel="icon" href="favicon.svg" media="(prefers-color-scheme: light)" />
+	<link rel="icon" href="favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+	<link rel="icon" href="favicon.svg" />
 </head>
 <body>
+<div id="main">
 	<div id="center">
-    	<p id="quote" onclick="this.classList.toggle('disabled')">Good morning</p>
-    	<div id="clock">10:36</div>
+    	<p id="quote" onclick="this.classList.toggle('disabled')" title="Toggle quote">Good morning</p>
+    	<div id="clock" title="Current time">10:36</div>
     </div>
+    <div id="controls">
+		<div id="timer-controls" class="controls disabled">
+			<button class="timer-control material-symbols-outlined" onclick="timer.value = 0;">replay</button>
+			<button class="timer-control material-symbols-outlined" onclick="timer.running = !timer.running;this.innerHTML = timer.running ? 'pause' : 'play_arrow'">play_arrow</button>
+		</div>
+		<div id="pom-controls" class="controls disabled">
+        	<p id="pom-sessions">0</p>
+        	<button class="pom-control material-symbols-outlined" onclick="pomodoro.count -= 2;pomodoro.value = 0;">skip_previous</button>
+			<button class="pom-control material-symbols-outlined" onclick="pomodoro.running = !pomodoro.running;this.innerHTML = pomodoro.running ? 'pause' : 'play_arrow'">play_arrow</button>
+			<button class="pom-control material-symbols-outlined" onclick="pomodoro.value = 0;">skip_next</button>
+            <p id="pom-current">Paused</p>
+        </div>
+	</div>
+    <div id="bottom">
+    	<div id="modes">
+			<button class="mode material-symbols-outlined active" id="mode_clock" title="Clock mode" onclick="set_mode('clock')">alarm</button><button class="mode material-symbols-outlined" id="mode_pom" title="Pomodoro mode" onclick="set_mode('pom')">timelapse</button><button class="mode material-symbols-outlined" id="mode_timer" title="Timer mode" onclick="set_mode('timer')">timer</button>
+		</div>
+        <button id="settings-btn" class="material-symbols-outlined" onclick="open_settings()">settings</button>
+    </div>
+</div>
+<div id="settings">
+	<h2>Settings</h2>
+    <button onclick="localStorage.clear();window.location.reload()">Reset</button>
+    <hr>
+    <h3>Colors</h3>
+    Text color: <input id="color_black" type="color"><br>
+    Bg color: <input id="color_white" type="color"><br>
+    
+    <hr>
+    <h3>Fonts</h3>
+    <p>From <a href="https://fonts.google.com">Google Fonts</a>. The list of fonts is incomplete, but you can use fonts that are not on this list.</p><br>
+    Clock font: <input list="fonts" placeholder="Any font from google fonts" id="clock_font" /><br>
+    Clock size: <input id="clock_size"><br>
+    Quote font: <input list="fonts" placeholder="Any font from google fonts" id="clock_font" /><br>
+    Quote size: <input id="quote_size"><br>
+    UI font: <input list="fonts" placeholder="Any font from google fonts" id="clock_font" /><br>
+    Display quote:  <input type="checkbox" id="display_quote"><br>
+    
+    <hr>
+    <h3>Specific</h3>
+    <h4>Clock</h4>
+    Clock format: <input id="clock_format"><br>
+    <h4>Pomodoro</h4>
+    Work time (s): <input id="pom_work"><br>
+    Short break (s): <input id="pom_sb"><br>
+    Long break (s): <input id="pom_lb"><br>
+    Cycles before long break: <input id="pom_count"><br>
+</div>
 </body>
+<script src="index.js"></script>
+<datalist id="fonts"></datalist>
+
 <script>
-let clock = document.getElementById("clock");
-let quote = document.getElementById("quote");
-let resources = [];
-let options = {
-    clock_font: 'JetBrains Mono',
-    clock_size: '10rem',
-    quote_font: 'JetBrains Mono',
-    quote_size: '2rem',
-    display_quote: true,
-}
-function add_css(link){
-    if(!resources.includes(link)){
-    	document.head.insertAdjacentHTML(
-    		'beforeend',
-    		'<link rel="stylesheet" href="' + link + '" />');
-    	resources.push(link)
-    }
-}
-function setup(){
-    //import options
-    //clock_font
-    add_css("https://fonts.googleapis.com/css2?family="+options.clock_font.replaceAll("  ","+"))
-    clock.style.setProperty("font-family",options.clock_font)
-    
-    //quote_font
-    add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
-    quote.style.setProperty("font-family",options.quote_font)
-    
-    //display_quote
-    if(!options.display_quote){
-        quote.classList.add("disabled")
-    }
-    
-    //clock_size
-    clock.style.setProperty("font-size",options.clock_size)
-    
-    //quote_size
-    quote.style.setProperty("font-size",options.quote_size)
-}
-function load(){
-    //load options
-    for(let l in Object.keys(options)){
-    	if(localStorage.getItem(options[l]) != undefined){
-    	    options[l] = localStorage.getItem(options[l])
-    	}
-	}
-    setup()
-}
-window.onload = load;
+fetch("fonts.json")
+  .then(r => r.json())
+  .then(fonts => {
+    const datalist = document.getElementById("fonts");
+    fonts.forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      datalist.appendChild(opt);
+    });
+  });
 </script>
 </html>

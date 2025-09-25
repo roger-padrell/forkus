@@ -1,10 +1,68 @@
-body, html{
+        body, html{
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
     overflow: hidden;
     user-select: none;
+}
+
+#main{
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+    transition: width 1s;
+}
+
+body.settings #main{
+    width: 70%;
+}
+
+#settings{
+    position: absolute;
+    right: -100%;
+    transition: right 1s;
+    border: 5px solid var(--black);
+    border-radius: 1rem;
+    height: 95%;
+    margin: 1rem;
+    translate: 0 -50%;
+    top: 48.5%;
+    box-sizing: border-box;
+    padding: 1rem;
+    width: 30%;
+}
+#settings h2{
+    margin-top: 0px;
+}
+
+body.settings #settings{
+    width: 30%;
+    right: 0px;
+}
+
+body{
+    --raw-black: #1C1C1C;
+    --raw-white: #F5F5DC;
+    --ui-font: 'JetBrains Mono';
+    background-color: var(--white);
+    font-family: var(--ui-font);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --black: var(--raw-white);
+    --white: var(--raw-black);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    --black: var(--raw-black);
+    --white: var(--raw-white);
+  }
 }
 
 div#center{
@@ -16,17 +74,176 @@ div#center{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 #quote{
     opacity: 1;
     font-size: 2rem;
     margin: 0px;
     transition: opacity 1s;
+    cursor: pointer;
+    color: var(--black);.
+    width: 100%;
+    text-align: center;
 }
 #clock{
     font-size: 10rem;
     margin: 0px;
+    color: var(--black);
 }
 #quote.disabled{
     opacity: 0;
+    cursor: unset;
+}
+
+#bottom{
+    --after-x: 0px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100px
+}
+
+#modes{
+    position: relative;
+    border: 1px solid var(--black);
+    border-radius: 2rem;
+    translate: 0 300%;
+    transition: translate .5s;
+    height: min-content;
+}
+
+#bottom:hover #modes{
+    display: block;
+    translate: 0 120%;
+}
+
+.mode{
+    box-shadow: none;
+    margin: .2rem;
+    background-color: inherit;
+    border: 0px;
+    aspect-ratio: 1;
+    transition: color .5s;
+    color: var(--black);
+}
+
+#modes .mode:first-child{
+    border-radius: 2rem 0 0 2rem;
+}
+
+#modes .mode:last-child{
+    border-radius: 0 2rem 2rem 0;
+}
+
+.mode.active{
+    color: var(--white);
+}
+
+#modes::after{
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+    transition: left .5s, border-radius .5s;
+    left: calc(var(--after-x) + var(--after-i)*.4rem);
+    top: 0px;
+    z-index: -1;
+    aspect-ratio: 1;
+    background-color: var(--black);
+    border-radius: var(--after-br)
+}
+
+#controls{
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    translate: -50% -50%;
+}
+
+.controls{
+    position: absolute;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    left: 50%;
+    translate: -50% 0;
+    transition: opacity .5s;
+}
+.controls.disabled{
+    opacity: 0;
+    z-index: -1;
+}
+
+.timer-control{
+    box-shadow: none;
+    background-color: inherit;
+    border: 0px;
+    aspect-ratio: 1;
+    color: var(--black);
+    cursor: pointer;
+}
+
+.pom-control{
+    box-shadow: none;
+    background-color: inherit;
+    border: 0px;
+    aspect-ratio: 1;
+    color: var(--black);
+    cursor: pointer;
+}
+
+#pom-controls{
+    color: var(--black);
+}
+
+
+#settings-btn{
+    background: inherit;
+    box-shadow: none;
+    border: 0px;
+    position: absolute;
+    bottom: -100%;
+    right: 1rem;
+    cursor: pointer;
+    color: var(--black);
+    transition: rotate .5s, background-color .5s, color .5s, bottom .5s;
+    border-radius: 2rem;
+    text-align: center;
+    padding: .7rem;
+    aspect-ratio: 1;
+}
+
+#bottom:hover #settings-btn{
+    bottom: 1rem;
+}
+
+
+#settings-btn:hover{
+    rotate: 50deg;
+    color: var(--white);
+    background-color: var(--black);
+}
+
+#settings{
+    color: var(--black);
+}
+
+#settings input{
+    border: 2px solid var(--black);
+    color: var(--black);
+    font-family: var(--ui-font);
+    box-shadow: none;
+    background-color: var(--white);
+}
+
+#settings button{
+    box-shadow: none;
+    border: 1px solid var(--black);
+    background-color: var(--white);
+    font-family: var(--ui-font);
+    color: var(--black);
+    cursor: pointer;
 }
