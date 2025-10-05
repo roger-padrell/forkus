@@ -262,3 +262,23 @@ document.body.oncontextmenu = function(e){
     	open_settings()
     }
 }
+
+let a = new Audio();
+let current_audio = document.getElementById("current_audio");
+
+function load_audio(){
+    a = new Audio(current_audio.value);
+}
+current_audio.onchange = load_audio
+
+function toggle_audio(){
+    if(a.src == ""){
+        load_audio()
+    }
+    if(a.paused){
+        a.play()
+    }
+    else{
+        a.pause()
+    }
+}

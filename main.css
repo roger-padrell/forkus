@@ -236,3 +236,24 @@ div#center{
     color: var(--black);
     cursor: pointer;
 }
+
+#music{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    opacity: 0.1;
+    transition: opacity .5s;
+}
+
+#music:hover{
+    opacity: 1;
+}
+
+#music *{
+    box-shadow: none;
+    border: 1px solid var(--black);
+    background-color: var(--white);
+    font-family: var(--ui-font);
+    color: var(--black);
+    cursor: pointer;
+}
