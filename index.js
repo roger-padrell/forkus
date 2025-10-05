@@ -41,15 +41,15 @@ function setup(){
     //import options
     //clock_font
     add_css("https://fonts.googleapis.com/css2?family="+options.clock_font.replaceAll("  ","+"))
-    clock.style.setProperty("font-family",options.clock_font)
+    clock.style.setProperty("font-family","'" + options.clock_font + "'")
     
     //quote_font
     add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
-    quote.style.setProperty("font-family",options.quote_font)
+    quote.style.setProperty("font-family","'" + options.quote_font + "'")
     
     //ui_font
     add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
-    document.body.style.setProperty("--ui-font",options.ui_font)
+    document.body.style.setProperty("--ui-font","'" + options.ui_font + "'")
     
     //display_quote
     if(!options.display_quote){
@@ -224,7 +224,7 @@ function update_settings(){
     }
 }
 
-settings.onchange = function(e){
+function changeSettings(e){
     let val = e.target.value;
     if(e.target.type == "checkbox"){
         val = e.target.checked;
@@ -232,4 +232,33 @@ settings.onchange = function(e){
     options[e.target.id] = val;
     localStorage.setItem(e.target.id, val);
     setup()
+}
+
+settings.onchange = changeSettings;
+
+function swapValues(id1, id2){
+    let i1 = document.getElementById(id1);
+    let i2 = document.getElementById(id2); 
+    let v1 = i1.value;
+    let v2 = i2.value;
+    i1.value = v2;
+    i2.value = v1;
+    options[id1] = v2;
+    options[id2] = v1;
+    localStorage.setItem(id1, v2);
+    localStorage.setItem(id2, v1);
+    setup()
+}
+
+document.body.onclick = function(e){
+    if(document.body.classList.contains("settings") && !settings.contains(e.target) && e.target.id != "settings-btn"){
+    	open_settings()
+    }
+}
+
+document.body.oncontextmenu = function(e){
+    e.preventDefault()
+    if(!settings.contains(e.target)){
+    	open_settings()
+    }
 }

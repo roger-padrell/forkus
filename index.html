@@ -32,14 +32,14 @@
     	<div id="modes">
 			<button class="mode material-symbols-outlined active" id="mode_clock" title="Clock mode" onclick="set_mode('clock')">alarm</button><button class="mode material-symbols-outlined" id="mode_pom" title="Pomodoro mode" onclick="set_mode('pom')">timelapse</button><button class="mode material-symbols-outlined" id="mode_timer" title="Timer mode" onclick="set_mode('timer')">timer</button>
 		</div>
-        <button id="settings-btn" class="material-symbols-outlined" onclick="open_settings()">settings</button>
+        <button id="settings-btn" class="material-symbols-outlined" onclick="open_settings()" title="Open settings">settings</button>
     </div>
 </div>
 <div id="settings">
 	<h2>Settings</h2>
     <button onclick="localStorage.clear();window.location.reload()">Reset</button>
     <hr>
-    <h3>Colors</h3>
+    <h3>Colors <button onclick="swapValues('color_black','color_white')">Swap</button></h3>
     Text color: <input id="color_black" type="color"><br>
     Bg color: <input id="color_white" type="color"><br>
     
