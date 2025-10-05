@@ -283,3 +283,23 @@ function toggle_audio(){
         a.pause()
     }
 }
+
+function generate_spotify_embed(spotify_url){
+    return `<iframe 
+    	data-testid="embed-iframe" 
+    	style="border-radius:12px" 
+    	src="${spotify_url.replace(".com/",".com/embed/")}" 
+    	width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; 
+    	encrypted-media; fullscreen; 
+    	picture-in-picture" 
+    	loading="lazy">
+    </iframe>`
+}
+
+let spotify_input = document.getElementById("spotify_url");
+let spotify_cont = document.getElementById("spotify_cont");
+spotify_input.onchange = function(e){
+    let code = generate_spotify_embed(spotify_input.value);
+    spotify_cont.innerHTML = code;
+}
+spotify_input.value = "";

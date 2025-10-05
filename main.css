@@ -1,4 +1,4 @@
-body, html{
+        body, html{
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -243,6 +243,7 @@ div#center{
     left: 1rem;
     opacity: 0.1;
     transition: opacity .5s;
+    overflow: hidden;
 }
 
 #music:hover{
@@ -256,4 +257,36 @@ div#center{
     font-family: var(--ui-font);
     color: var(--black);
     cursor: pointer;
+}
+
+#spotify_cont{
+    position: absolute;
+	right: 1rem;
+	width: 40%;
+    top: 1rem;
+	max-height: 14%;
+    opacity: 0.1;
+    transition: opacity 1s;
+}
+
+#spotify_cont:hover{
+    opacity: 1;
+}
+
+#spotify_url{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border: 2px solid var(--black);
+    color: var(--black);
+    font-family: var(--ui-font);
+    box-shadow: none;
+    background-color: var(--white);
+}
+#spotify_cont iframe{
+    transition: opacity 1s;
+    opacity: 0;
+}
+#spotify_cont:hover iframe{
+    opacity: 1;
 }
