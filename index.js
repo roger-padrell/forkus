@@ -1,13 +1,7 @@
 let clock = document.getElementById("clock");
 let timer = {value: 0, running: false};
 let pomodoro = {value: 0, count: 0, action: "rest", running: false}
-let quote = document.getElementById("quote");
 let settings = document.getElementById("settings")
-let pomoquotes = {
-    rest: ["Grab yourself a coffee", "Enjoy this short break"],
-    work: ["Time to be productive", "The rest has ended, time to work"],
-    lrest: ["An extra-long rest for an extra-productive person", "Taking a long rest once in a while is good", "Enjoy this LOOOONG rest, you've earned it!"]
-}
 let pomnames = {
     rest: "Short break",
     work: "Working",
@@ -17,9 +11,6 @@ let resources = [];
 let options = {
     clock_font: 'JetBrains Mono',
     clock_size: '10rem',
-    quote_font: 'JetBrains Mono',
-    quote_size: '2rem',
-    display_quote: true,
     clock_format: 'hh:mm:ss',
     pom_work: '1500',
     pom_sb: '300',
@@ -43,27 +34,13 @@ function setup(){
     add_css("https://fonts.googleapis.com/css2?family="+options.clock_font.replaceAll("  ","+"))
     clock.style.setProperty("font-family","'" + options.clock_font + "'")
     
-    //quote_font
-    add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
-    quote.style.setProperty("font-family","'" + options.quote_font + "'")
-    
     //ui_font
-    add_css("https://fonts.googleapis.com/css2?family="+options.quote_font.replaceAll("  ","+"))
+    add_css("https://fonts.googleapis.com/css2?family="+options.ui_font.replaceAll("  ","+"))
     document.body.style.setProperty("--ui-font","'" + options.ui_font + "'")
-    
-    //display_quote
-    if(!options.display_quote){
-        quote.classList.add("disabled");
-    }else{
-    	quote.classList.remove("disabled");
-    }
     
     
     //clock_size
     clock.style.setProperty("font-size",options.clock_size)
-    
-    //quote_size
-    quote.style.setProperty("font-size",options.quote_size)
    
     //colors
     document.body.style.setProperty("--raw-black", options.color_black)
@@ -146,10 +123,13 @@ Date.prototype.format = function(format) {
 }
 
 function clock_tick(){
-    d = new Date(Date.now());
+    n = Date.now()
+    d = new Date(n);
     clock.innerHTML = d.format(options.clock_format);
+    setProgress((d.getMinutes()*60 + d.getSeconds()) / (60*60) * 100); // full loop each hour
 }
 
+const FULL_LOOP_TIMER_MIN = 5;
 function timer_tick(){
     if(timer.running == true){
         timer.value += 1;
@@ -164,6 +144,7 @@ function timer_tick(){
     seconds = String(seconds).padStart(2, '0');
     
     clock.innerHTML = `${hour}:${minute}:${seconds}`;
+    setProgress(timer.value % (FULL_LOOP_TIMER_MIN*60) / (FULL_LOOP_TIMER_MIN*60) * 100); // full loop each 5 min
 }
 
 function pom_tick(){
@@ -185,8 +166,6 @@ function pom_tick(){
                 }
             }
             //render action
-    		let qs = pomoquotes[pomodoro.action];
-    		quote.innerHTML = qs[Math.floor(Math.random() * qs.length)];
     		document.getElementById("pom-sessions").innerHTML = pomodoro.count;
     		document.getElementById("pom-current").innerHTML = pomnames[pomodoro.action];
         }
@@ -202,6 +181,16 @@ function pom_tick(){
     minute = String(minute).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
     clock.innerHTML = `${hour}:${minute}:${seconds}`;
+    
+    if(pomodoro.action == "work"){
+     setProgress(100-(pomodoro.value/parseInt(options.pom_work)*100))
+    }
+    else if(pomodoro.action == "rest"){
+     setProgress(100-(pomodoro.value/parseInt(options.pom_sb)*100))
+    }
+    else if(pomodoro.action == "lrest"){
+     setProgress(100-(pomodoro.value/parseInt(options.pom_lb)*100))
+    }
 }
 
 set_mode("clock")
@@ -263,43 +252,6 @@ document.body.oncontextmenu = function(e){
     }
 }
 
-let a = new Audio();
-let current_audio = document.getElementById("current_audio");
-
-function load_audio(){
-    a.pause()
-    a = new Audio(current_audio.value);
+function setProgress(percent){
+ document.getElementById("progress").style.width = percent + "%";
 }
-current_audio.onchange = load_audio
-
-function toggle_audio(){
-    if(a.src == ""){
-        load_audio()
-    }
-    if(a.paused){
-        a.play()
-    }
-    else{
-        a.pause()
-    }
-}
-
-function generate_spotify_embed(spotify_url){
-    return `<iframe 
-    	data-testid="embed-iframe" 
-    	style="border-radius:12px" 
-    	src="${spotify_url.replace(".com/",".com/embed/")}" 
-    	width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; 
-    	encrypted-media; fullscreen; 
-    	picture-in-picture" 
-    	loading="lazy">
-    </iframe>`
-}
-
-let spotify_input = document.getElementById("spotify_url");
-let spotify_cont = document.getElementById("spotify_cont");
-spotify_input.onchange = function(e){
-    let code = generate_spotify_embed(spotify_input.value);
-    spotify_cont.innerHTML = code;
-}
-spotify_input.value = "";

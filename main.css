@@ -65,25 +65,13 @@ div#center{
     justify-content: center;
     width: 100%;
 }
-#quote{
-    opacity: 1;
-    font-size: 2rem;
-    margin: 0px;
-    transition: opacity 1s;
-    cursor: pointer;
-    color: var(--black);.
-    width: 100%;
-    text-align: center;
-}
+
 #clock{
     font-size: 10rem;
     margin: 0px;
     color: var(--black);
 }
-#quote.disabled{
-    opacity: 0;
-    cursor: unset;
-}
+
 
 #bottom{
     --after-x: 0px;
@@ -237,56 +225,12 @@ div#center{
     cursor: pointer;
 }
 
-#music{
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    opacity: 0.1;
-    transition: opacity .5s;
-    overflow: hidden;
-}
-
-#music:hover{
-    opacity: 1;
-}
-
-#music *{
-    box-shadow: none;
-    border: 1px solid var(--black);
-    background-color: var(--white);
-    font-family: var(--ui-font);
-    color: var(--black);
-    cursor: pointer;
-}
-
-#spotify_cont{
-    position: absolute;
-	right: 1rem;
-	width: 40%;
-    top: 1rem;
-	max-height: 14%;
-    opacity: 0.1;
-    transition: opacity 1s;
-}
-
-#spotify_cont:hover{
-    opacity: 1;
-}
-
-#spotify_url{
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    border: 2px solid var(--black);
-    color: var(--black);
-    font-family: var(--ui-font);
-    box-shadow: none;
-    background-color: var(--white);
-}
-#spotify_cont iframe{
-    transition: opacity 1s;
-    opacity: 0;
-}
-#spotify_cont:hover iframe{
-    opacity: 1;
+#progress{
+ position: absolute;
+ top: 0px;
+ left: 0px;
+ width: 50%;
+ height: 2rem;
+ background-color: var(--black);
+ transition: width 1s;
 }
