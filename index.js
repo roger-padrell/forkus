@@ -127,6 +127,7 @@ function clock_tick(){
     d = new Date(n);
     clock.innerHTML = d.format(options.clock_format);
     setProgress((d.getMinutes()*60 + d.getSeconds()) / (60*60) * 100); // full loop each hour
+	title(`${clock.innerHTML} - Forkus`)
 }
 
 const FULL_LOOP_TIMER_MIN = 5;
@@ -145,6 +146,7 @@ function timer_tick(){
     
     clock.innerHTML = `${hour}:${minute}:${seconds}`;
     setProgress(timer.value % (FULL_LOOP_TIMER_MIN*60) / (FULL_LOOP_TIMER_MIN*60) * 100); // full loop each 5 min
+	title(`${clock.innerHTML} - Timer - Forkus`)
 }
 
 function pom_tick(){
@@ -181,6 +183,7 @@ function pom_tick(){
     minute = String(minute).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
     clock.innerHTML = `${hour}:${minute}:${seconds}`;
+	title(`${clock.innerHTML} - ${pomodoro.action} - Forkus`)
     
     if(pomodoro.action == "work"){
      setProgress(100-(pomodoro.value/parseInt(options.pom_work)*100))
@@ -255,3 +258,5 @@ document.body.oncontextmenu = function(e){
 function setProgress(percent){
  document.getElementById("progress").style.width = percent + "%";
 }
+
+function title(value){document.title = value}
