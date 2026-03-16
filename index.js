@@ -2,6 +2,9 @@ let clock = document.getElementById("clock");
 let timer = {value: 0, running: false};
 let pomodoro = {value: 0, count: 0, action: "rest", running: false}
 let settings = document.getElementById("settings")
+let ring = document.createElement("audio")
+ring.pause()
+ring.src = "https://soundbuttonsworld.com/uploads/dca39545-afa4-4830-a309-bf1e0855e49a.mp3"
 let pomnames = {
     rest: "Short break",
     work: "Working",
@@ -19,6 +22,7 @@ let options = {
     color_black: '#1C1C1C',
     color_white: '#F5F5DC',
     ui_font: 'JetBrains Mono',
+	play_ring: false
 }
 function add_css(link){
     if(!resources.includes(link)){
@@ -153,6 +157,9 @@ function pom_tick(){
     if(pomodoro.running == true){
         if(pomodoro.value == 0){
             pomodoro.count += 1;
+			if(options.play_ring){
+				ring.play();
+			}
             if(pomodoro.action == "rest" || pomodoro.action == "lrest"){
                 pomodoro.action = "work";
                 pomodoro.value = parseInt(options.pom_work);
